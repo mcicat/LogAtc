@@ -1,9 +1,11 @@
 using LogAtc.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace LogAtc.Controllers;
 
+[Authorize]
 public class LogManagementController : Controller
 {
     private readonly ILogger<LogManagementController> _logger;
