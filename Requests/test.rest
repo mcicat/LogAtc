@@ -1,0 +1,14 @@
+@zipfile = UEsDBAoAAAAAANh7Qli7pB2lDAAAAAwAAAAHAAAAbG9nLnR4dGxpbmUxDQpsaW5lMlBLAQI/AAoAAAAAANh7Qli7pB2lDAAAAAwAAAAHACQAAAAAAAAAIAAAAAAAAABsb2cudHh0CgAgAAAAAAABABgAJ39maeRV2gEAAAAAAAAAAAAAAAAAAAAAUEsFBgAAAAABAAEAWQAAADEAAAAAAA==
+
+Get https://localhost:7146/LogManagement HTTP/1.1
+content-type: application/json
+###
+
+POST https://localhost:7146/LogManagement/LogZipFile HTTP/1.1
+content-type: application/json
+
+{
+    "Username": "admin@atclog.com",
+    "Password": "Atc123...",
+    "ZipFileBase64" : "{{zipfile}}"
+}

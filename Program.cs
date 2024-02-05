@@ -1,7 +1,5 @@
 using LogAtc.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

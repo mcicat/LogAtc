@@ -1,7 +1,28 @@
-﻿@{
+﻿@model IEnumerable<(string Name,string Link)>
+@{
     ViewData["Title"] = "Log Management";
 }
 
 <div class="text-center">
+    <style>
+        .table-center {
+            margin-left:auto;
+            margin-right:auto;
+        }
+    </style>
+
     <h1 class="display-4">Log Management</h1>
+    <table class="table-center">
+        <tr>
+            <th>Log file</th>
+            <th>Link</th>
+        </tr>
+        @foreach(var m in Model)
+        {
+        <tr>
+            <td>@m.Name</td>
+            <td><a href=@m.Link>Download</a></td>
+        </tr>
+        }
+    </table>
 </div>
