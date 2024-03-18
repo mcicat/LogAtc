@@ -2,12 +2,8 @@ using LogAtc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace LogAtc.Controllers;
 
@@ -16,7 +12,6 @@ public class LogManagementController : Controller
 {
     private readonly ILogger<LogManagementController> _logger;
     private readonly UserManager<IdentityUser> _userManager;
-    //private readonly IConfiguration _configuration;
     private readonly string _rootDirectoryPath;
 
     public LogManagementController(ILogger<LogManagementController> logger,
@@ -27,7 +22,6 @@ public class LogManagementController : Controller
         _logger = logger;
         _userManager = userManager;
         _rootDirectoryPath = Path.Combine(appEnvironment.WebRootPath, "LogStorage");
-        //_configuration = configuration;
     }
 
     public IActionResult Index()
@@ -72,34 +66,7 @@ public class LogManagementController : Controller
         System.IO.File.WriteAllBytes(Path.Combine(_rootDirectoryPath, zipFilename), Convert.FromBase64String(model.ZipFileBase64!));
 
         return Ok();
-
-        //List<Claim> authClaims =
-        //[
-        //    new Claim(ClaimTypes.Name, user.UserName!),
-        //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        //];
-
-        //var token = GetToken(authClaims);
-
-        //return Ok(new
-        //{
-        //    token = new JwtSecurityTokenHandler().WriteToken(token),
-        //    expiration = token.ValidTo
-        //});
-
     }
-
-    //private JwtSecurityToken GetToken(List<Claim> authClaims)
-    //{
-    //    SymmetricSecurityKey authSigningKey = new(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]!));
-    //    JwtSecurityToken token = new(
-    //        issuer: _configuration["JwtSettings:Issuer"],
-    //        audience: _configuration["JwtSettings:Audience"],
-    //        expires: DateTime.Now.AddMinutes(10),
-    //        claims: authClaims,
-    //        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
-    //    return token;
-    //}
 }
 
 public class LogModel
