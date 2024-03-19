@@ -1,3 +1,4 @@
+using LogAtc.Data;
 using LogAtc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,13 +12,12 @@ namespace LogAtc.Controllers;
 public class LogManagementController : Controller
 {
     private readonly ILogger<LogManagementController> _logger;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly string _rootDirectoryPath;
 
     public LogManagementController(ILogger<LogManagementController> logger,
                                    IWebHostEnvironment appEnvironment,
-                                   UserManager<IdentityUser> userManager
-                                   /*, IConfiguration configuration*/)
+                                   UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _userManager = userManager;
@@ -53,7 +53,9 @@ public class LogManagementController : Controller
             return BadRequest();
         }
         var user = await _userManager.FindByNameAsync(model.Username!);
-        if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password!))
+        if (user == null 
+            || user.ApiPassword is null
+            || user.ApiPassword != model.ApiPassword)
         {
             return Unauthorized();
         }
@@ -75,7 +77,7 @@ public class LogModel
     public string? Username { get; set; }
 
     [Required(ErrorMessage = "Password is required")]
-    public string? Password { get; set; }
+    public string? ApiPassword { get; set; }
 
     [Required(ErrorMessage = "ZipFile is required")]
     public string? ZipFileBase64 { get; set; }

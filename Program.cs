@@ -7,10 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedEmail = false;
@@ -52,12 +52,12 @@ app.Run();
 async Task CreateNewDefaultUserIfNeededAsync(WebApplication app)
 {
     using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     if (userManager.Users.Any(x => x.Email == "admin@atclog.com"))
     {
         return;
     }
-    var user = new IdentityUser
+    var user = new ApplicationUser
     {
         UserName = "admin@atclog.com",
         Email = "admin@atclog.com",
